@@ -1,19 +1,21 @@
 import {
-  FETCHING_ITINERARIES,
-  FETCH_ITINERARIES_SUCCESS,
-  FETCH_ITINERARIES_FAIL,
-  SAVE_ITINERARY
+  ITINERARY_NAME_CHANGED,
+  CREATE_ITINERARY
 } from '../actions/types';
 
-const INITIAL_STATE = {};
+import { Actions } from 'react-native-router-flux';
+
+const INITIAL_STATE = {
+  name: ''
+}
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_ITINERARIES_SUCCESS:
-      return action.payload;
-    case SAVE_ITINERARY:
-      return state;
-    default: 
+    case ITINERARY_NAME_CHANGED:
+      return { ...state, name: action.payload };
+    case CREATE_ITINERARY:
+      return INITIAL_STATE;
+    default:
       return state;
   }
 }

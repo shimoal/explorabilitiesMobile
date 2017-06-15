@@ -1,22 +1,11 @@
 import {
-  FETCHING_ITINERARIES,
-  FETCH_ITINERARIES_SUCCESS,
-  FETCH_ITINERARIES_FAIL,
-  SAVE_ITINERARY
+  ITINERARY_NAME_CHANGED,
+  CREATE_ITINERARY
 } from './types';
-
 import firebase from 'firebase';
 
-export const fetchItineraries = () => {
-  const { currentUser } = firebase.auth();
-
-  return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/itineraries`)
-      .on('value', snapshot => {
-        console.log('inisde on vlaue, snapshot.val:', snapshot.val());
-        dispatch({ type: FETCH_ITINERARIES_SUCCESS, payload: snapshot.val() })
-      });
-  }
+export const changeName = (name) => {
+  return { type: ITINERARY_NAME_CHANGED, payload: name };
 }
 
 export const saveItinerary = ({ name }) => {
@@ -26,7 +15,7 @@ export const saveItinerary = ({ name }) => {
     firebase.database().ref(`/users/${currentUser.uid}/itineraries`)
       .push({ name })
       .then(() => {
-        dispatch({ type: SAVE_ITINERARY });
+        dispatch({ type: CREATE_ITINERARY });
         Actions.itineraryList({ type: 'reset' });
       });
   }
